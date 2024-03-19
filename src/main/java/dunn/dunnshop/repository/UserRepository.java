@@ -1,7 +1,7 @@
 package dunn.dunnshop.repository;
 
 import com.fasterxml.jackson.databind.annotation.JsonAppend;
-import dunn.dunnshop.Entity.Users;
+import dunn.dunnshop.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.HashMap;

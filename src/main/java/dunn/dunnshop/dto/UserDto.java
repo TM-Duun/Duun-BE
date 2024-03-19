@@ -1,9 +1,8 @@
 package dunn.dunnshop.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class UserDto {
 
     private String userId;
@@ -12,4 +11,13 @@ public class UserDto {
     private String phone;
     private String email;
     private String address;
+
+
+    public UserDto(String userId, String password, String name, String email, String address) {
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.address = address;
+    }
 }
