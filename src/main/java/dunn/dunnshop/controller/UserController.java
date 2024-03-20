@@ -1,8 +1,9 @@
 package dunn.dunnshop.controller;
 
-import dunn.dunnshop.Entity.Users;
+import dunn.dunnshop.entity.Users;
 import dunn.dunnshop.dto.UserDto;
 import dunn.dunnshop.service.UserService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,14 +14,10 @@ import java.util.List;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
-
-    @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
 
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
@@ -31,14 +28,12 @@ public class UserController {
 
     @ResponseBody
     @PostMapping("/user/new")
-    public UserDto userForm(@RequestBody UserDto userDto) {
+    public Users userForm(@RequestBody Users users) {
+        Users savedUser = userService.saveUser(users);
 
-        Users users = Users.createUser(userDto);
-        userService.saveUser(users);
+        log.info("userDto={}", users);
+        log.info("name={}, email={}", users.getName(), users.getEmail());
 
-        log.info("userDto={}", userDto);
-        log.info("name={}, email={}", userDto.getName(), userDto.getEmail());
-
-        return userDto;
+        return users;
     }
 }

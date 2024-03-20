@@ -1,20 +1,16 @@
-package dunn.dunnshop.Entity;
+package dunn.dunnshop.entity;
 
-import dunn.dunnshop.dto.UserDto;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
-// 모든 컬럼에 대해 getter, setter 설정함
+// 모든 컬럼에 대해 getter
 // 생성자 세팅
 @Entity
 @Getter
-@Setter
-@ToString
+@NoArgsConstructor(access = AccessLevel.PROTECTED) // 파라미터 없는 생성자 만듬
 public class Users {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(length = 20, nullable = false)
@@ -35,17 +31,12 @@ public class Users {
     @Column(length = 100, nullable = false)
     private String address;
 
-    public static Users createUser(UserDto userDto) {
-        Users users = new Users();
-
-
-        users.setUserId(userDto.getUserId());
-        users.setPassword(userDto.getPassword());
-        users.setName(userDto.getName());
-        users.setPhone(userDto.getPhone());
-        users.setEmail(userDto.getEmail());
-        users.setAddress(userDto.getAddress());
-
-        return users;
+    @Builder
+    private Users(String userId, String password, String name, String email, String address) {
+        this.userId = userId;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.address = address;
     }
 }
