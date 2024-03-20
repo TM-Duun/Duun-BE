@@ -10,6 +10,7 @@ import dunn.dunnshop.repository.ItemRepository;
 import dunn.dunnshop.repository.OrderDetailRepository;
 import dunn.dunnshop.repository.OrderRepository;
 import dunn.dunnshop.repository.UserRepository;
+import jakarta.persistence.criteria.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +32,13 @@ public class OrderService {
 
         System.out.println("users : " + users.getId());
 
-        Orders orders = Orders.builder()
-                .users(users)
-                .orderDate(LocalDateTime.now())
-                .build();
+        Orders orders = new Orders();
 
-        Orders printOrders = orderRepository.save(orders);
-        System.out.println("printOrders" + printOrders);
+        orders.setUsers(users);
+        orders.setOrderDate(LocalDateTime.now());
+//
+//        Orders printOrders = orderRepository.save(orders);
+//        System.out.println("printOrders : " + printOrders.getUsers().getId());
 
         List<OrderDetails> orderItems = orderDto.getOrderItems().stream()
                 .map(orderItem -> {
@@ -52,11 +53,20 @@ public class OrderService {
                             .quantity(orderItem.getQuantity()) // 수량 설정
                             .build();
                 }).toList();
+        for (OrderDetails orderItem : orderItems) {
+            System.out.println("orderItem : " + orderItem.getItemId());
+        }
+
+        orders.setOrderItems(orderItems);
+        Orders saveOrders = orderRepository.save(orders);
+
+
+        orderDetailRepository.saveAll(orderItems);
 
         // 주문 객체에 주문 상세 정보 추가
-        orders.setOrderDetails(orderItems);
-        System.out.println("update orders.getOrderDetails : " + orders.getOrderDetails());
+//        printOrders.setOrderItems(orderItems);
+//        System.out.println("최종 printOrder : " + printOrders.getOrderItems());
 
-        return orders;
+        return saveOrders;
     }
 }

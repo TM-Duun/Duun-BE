@@ -1,5 +1,8 @@
 package dunn.dunnshop.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import dunn.dunnshop.dto.OrderDetailDto;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,14 +12,18 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // 파라미터 없는 생성자 만듬
+//@NoArgsConstructor(access = AccessLevel.PROTECTED) // 파라미터 없는 생성자 만듬
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id"
+)
 public class Orders {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
+    @Id @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(unique = true)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private Users users;
 
@@ -24,16 +31,40 @@ public class Orders {
     private LocalDateTime orderDate;
 
     @OneToMany(mappedBy = "orderId")
-    private List<OrderDetails> orderDetails = new ArrayList<>();
+    private List<OrderDetails> orderItems = new ArrayList<>();
 
-    public void setOrderDetails(List<OrderDetails> orderDetails) {
-        this.orderDetails = orderDetails;
+    public Orders() {
     }
 
-    @Builder
-    public Orders(Users users, LocalDateTime orderDate, List<OrderDetails> orderDetails) {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
         this.users = users;
+    }
+
+    public LocalDateTime getOrderDate() {
+        return orderDate;
+    }
+
+    public void setOrderDate(LocalDateTime orderDate) {
         this.orderDate = orderDate;
-        this.orderDetails = orderDetails;
+    }
+
+    public List<OrderDetails> getOrderItems() {
+        return orderItems;
+    }
+
+    public void setOrderItems(List<OrderDetails> orderItems) {
+        this.orderItems = orderItems;
     }
 }
