@@ -13,27 +13,31 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class UserController {
 
     private final UserService userService;
 
     @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    @GetMapping("/user/all")
+    @GetMapping("/users")
     public List<UserDto> getUserForm() {
         return userService.getAllUsers();
     }
 
-    @ResponseBody
-    @PostMapping("/user/new")
+    @PostMapping("/user")
     public Users userForm(@RequestBody Users users) {
         Users savedUser = userService.saveUser(users);
 
         log.info("userDto={}", users);
         log.info("name={}, email={}", users.getName(), users.getEmail());
 
-        return users;
+        return savedUser;
+    }
+
+    @ResponseBody
+    @PostMapping("/users")
+    public List<Users> userListForm(@RequestBody List<Users> usersList) {
+        return userService.saveListUser(usersList);
     }
 }

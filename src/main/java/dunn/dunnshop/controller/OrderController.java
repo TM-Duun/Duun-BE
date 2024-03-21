@@ -4,38 +4,34 @@ import dunn.dunnshop.dto.OrderDto;
 import dunn.dunnshop.entity.OrderDetails;
 import dunn.dunnshop.entity.Orders;
 import dunn.dunnshop.entity.Users;
+import dunn.dunnshop.request.OrderRequest;
+import dunn.dunnshop.response.OrderResponse;
 import dunn.dunnshop.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class OrderController {
 
     private final OrderService orderService;
 
-//    @ResponseBody
-//    @GetMapping("/order/all")
-//    public List<OrderDto> getAllOrder() {
-//        return orderService.getAllOrder();
-//    }
+    // 장바구니 조회하기
+//    @GetMapping("/order/{id}")
 
-    @ResponseBody
+
     @PostMapping("/order")
-    public Orders orderForm(@RequestBody OrderDto orderDto) {
-        Orders orders = orderService.savedOrder(orderDto);
+    public OrderResponse orderForm(@RequestBody OrderRequest orderRequest) {
+        OrderResponse orderResponse = orderService.savedOrder(orderRequest);
 
-        System.out.println("controller -> orders : " + orders);
-        return orders;
+        System.out.println("controller -> orders : " + orderResponse);
+        return orderResponse;
     }
 }
