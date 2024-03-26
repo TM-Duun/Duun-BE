@@ -3,8 +3,8 @@ package dunn.dunnshop.service;
 import dunn.dunnshop.dto.ItemDto;
 import dunn.dunnshop.entity.Items;
 import dunn.dunnshop.repository.ItemRepository;
-import dunn.dunnshop.response.main.CategoryDto;
-import dunn.dunnshop.response.main.MainDto;
+import dunn.dunnshop.dto.response.main.CategoryDto;
+import dunn.dunnshop.dto.response.main.MainDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

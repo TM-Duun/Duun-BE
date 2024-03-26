@@ -1,7 +1,6 @@
 package dunn.dunnshop.controller.main;
 
-import dunn.dunnshop.response.main.CategoryDto;
-import dunn.dunnshop.response.main.MainDto;
+import dunn.dunnshop.dto.response.main.CategoryDto;
 import dunn.dunnshop.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

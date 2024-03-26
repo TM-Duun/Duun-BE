@@ -1,4 +1,4 @@
-package dunn.dunnshop.response.cart;
+package dunn.dunnshop.dto.response.cart;
 
 import lombok.Builder;
 import lombok.Getter;

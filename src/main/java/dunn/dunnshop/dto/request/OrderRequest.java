@@ -1,4 +1,4 @@
-package dunn.dunnshop.request;
+package dunn.dunnshop.dto.request;
 
 import dunn.dunnshop.dto.OrderDetailDto;
 import lombok.Getter;

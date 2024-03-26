@@ -1,4 +1,4 @@
-package dunn.dunnshop.response;
+package dunn.dunnshop.dto;
 
 import dunn.dunnshop.entity.OrderDetails;
 import dunn.dunnshop.entity.Users;

@@ -1,7 +1,5 @@
 package dunn.dunnshop.service;
 
-import dunn.dunnshop.dto.OrderDetailDto;
-import dunn.dunnshop.dto.OrderDto;
 import dunn.dunnshop.entity.Items;
 import dunn.dunnshop.entity.OrderDetails;
 import dunn.dunnshop.entity.Orders;
@@ -10,17 +8,15 @@ import dunn.dunnshop.repository.ItemRepository;
 import dunn.dunnshop.repository.OrderDetailRepository;
 import dunn.dunnshop.repository.OrderRepository;
 import dunn.dunnshop.repository.UserRepository;
-import dunn.dunnshop.request.OrderRequest;
-import dunn.dunnshop.response.OrderResponse;
-import dunn.dunnshop.response.cart.CartResponseDto;
-import jakarta.persistence.criteria.Order;
+import dunn.dunnshop.dto.request.OrderRequest;
+import dunn.dunnshop.dto.OrderResponse;
+import dunn.dunnshop.dto.response.cart.CartResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -68,13 +64,23 @@ public class OrderService {
     }
 
     public CartResponseDto searchOrder(Long id) {
-        Optional<Orders> findOrder = orderRepository.findById(id);
-        Orders order = findOrder.get();
+        Optional<OrderDetails> returnCart = orderDetailRepository.findById(id);
+        System.out.println("returnCart = " + returnCart);
 
-        List<OrderDetails> orderItem = order.getOrderItems();
+        Items items = returnCart.get().getItems();
 
         CartResponseDto cartResponseDto = CartResponseDto.builder()
-                .name(order.getOrderItems().get)
+                .name(items.getName())
+                .size(items.getSize())
+                .color(items.getColor())
+                .price(items.getPrice())
                 .build();
+
+        return cartResponseDto;
+    }
+
+    public void deleteOrder(Long id) {
+        orderRepository.deleteById(id);
+        System.out.println("주문이 삭제되었습니다.");
     }
 }
