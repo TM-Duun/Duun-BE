@@ -1,13 +1,12 @@
 package dunn.dunnshop.controller;
 
-import dunn.dunnshop.entity.Users;
 import dunn.dunnshop.dto.UserDto;
+import dunn.dunnshop.dto.response.user.MyPageDto;
+import dunn.dunnshop.entity.Users;
 import dunn.dunnshop.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,18 +25,28 @@ public class UserController {
     }
 
     @PostMapping("/user")
-    public Users userForm(@RequestBody Users users) {
-        Users savedUser = userService.saveUser(users);
-
-        log.info("userDto={}", users);
-        log.info("name={}, email={}", users.getName(), users.getEmail());
-
-        return savedUser;
+    public UserDto userForm(@RequestBody UserDto userDto) {
+        return userService.saveOneUser(userDto);
     }
 
     @ResponseBody
     @PostMapping("/users")
     public List<Users> userListForm(@RequestBody List<Users> usersList) {
         return userService.saveListUser(usersList);
+    }
+
+    @GetMapping("/user/{id}")
+    public MyPageDto userMyPage(@PathVariable("id") Long id) {
+        return userService.mypageForm(id);
+    }
+
+    @GetMapping("/signup")
+    public String duplicateId(@RequestParam String id) {
+        boolean idBoolean = userService.duplicateId(id);
+        if (idBoolean == true) {
+            return "중복 아이디가 없습니다";
+        } else {
+            return "중복 아이디가 있습니다";
+        }
     }
 }
