@@ -9,4 +9,5 @@ import java.util.Map;
 
 public interface UserRepository extends JpaRepository<Users, Long> {
     Users findByEmail(String email);
+    Users findByUserId(String userId);
 }

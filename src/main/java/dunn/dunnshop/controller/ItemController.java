@@ -10,23 +10,27 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
-@Controller
+@RestController
 @RequiredArgsConstructor
 public class ItemController {
 
     private final ItemService itemService;
 
-    @ResponseStatus(HttpStatus.OK)
-    @ResponseBody
-    @GetMapping("/item/all")
-    public List<ItemDto> getItemForm() {
-        return itemService.getAllItems();
+//    @ResponseStatus(HttpStatus.OK)
+//    @GetMapping("/item")
+//    public List<ItemDto> getItemForm() {
+//        return itemService.getAllItems();
+//    }
+
+    @GetMapping("/item/{id}")
+    public ItemDto searchItem(@PathVariable Long id) {
+        return itemService.searchItem(id);
     }
 
-    @ResponseBody
-    @PostMapping("/item/new")
+    @PostMapping("/item")
     public Items itemForm(@RequestBody Items items) {
 
         Items savedItem = itemService.saveItem(items);
@@ -35,5 +39,10 @@ public class ItemController {
         log.info("name={}, price={}", items.getName(), items.getPrice());
 
         return savedItem;
+    }
+
+    @PostMapping("/items")
+    public List<Items> itemListForm(@RequestBody List<Items> itemsList) {
+        return itemService.saveListItem(itemsList);
     }
 }

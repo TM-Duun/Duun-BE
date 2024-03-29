@@ -1,10 +1,12 @@
 package dunn.dunnshop.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import dunn.dunnshop.dto.OrderDetailDto;
 import jakarta.persistence.*;
 import lombok.*;
+import org.aspectj.weaver.ast.Or;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -12,14 +14,9 @@ import java.util.List;
 
 @Entity
 @Getter @Setter
-//@NoArgsConstructor(access = AccessLevel.PROTECTED) // 파라미터 없는 생성자 만듬
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
-)
 public class Orders {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true)
     private Long id;
 
@@ -30,7 +27,7 @@ public class Orders {
     @Column
     private LocalDateTime orderDate;
 
-    @OneToMany(mappedBy = "orderId")
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private List<OrderDetails> orderItems = new ArrayList<>();
 
     public Orders() {
@@ -67,4 +64,5 @@ public class Orders {
     public void setOrderItems(List<OrderDetails> orderItems) {
         this.orderItems = orderItems;
     }
+
 }

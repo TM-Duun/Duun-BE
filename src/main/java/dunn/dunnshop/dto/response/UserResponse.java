@@ -1,10 +1,10 @@
-package dunn.dunnshop.dto;
+package dunn.dunnshop.dto.response;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class UserDto {
+public class UserResponse {
 
     private String userId;
     private String password;
@@ -13,9 +13,8 @@ public class UserDto {
     private String email;
     private String address;
 
-
     @Builder
-    public UserDto(String userId, String password, String phone, String name, String email, String address) {
+    public UserResponse(String userId, String password, String phone, String name, String email, String address) {
         this.userId = userId;
         this.password = password;
         this.name = name;

@@ -1,7 +1,5 @@
 package dunn.dunnshop.service;
 
-import dunn.dunnshop.dto.OrderDetailDto;
-import dunn.dunnshop.dto.OrderDto;
 import dunn.dunnshop.entity.Items;
 import dunn.dunnshop.entity.OrderDetails;
 import dunn.dunnshop.entity.Orders;
@@ -10,13 +8,15 @@ import dunn.dunnshop.repository.ItemRepository;
 import dunn.dunnshop.repository.OrderDetailRepository;
 import dunn.dunnshop.repository.OrderRepository;
 import dunn.dunnshop.repository.UserRepository;
-import jakarta.persistence.criteria.Order;
+import dunn.dunnshop.dto.request.OrderRequest;
+import dunn.dunnshop.dto.OrderResponse;
+import dunn.dunnshop.dto.response.cart.CartResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,21 +26,17 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
 
-    public Orders savedOrder(OrderDto orderDto) {
-        Users users = userRepository.findById(orderDto.getUserId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+    public OrderResponse savedOrder(OrderRequest orderRequest) {
+        Users users = userRepository.findById(orderRequest.getUserId()).orElseThrow(
+                () -> new IllegalArgumentException("User not found"));
 
         System.out.println("users : " + users.getId());
 
-        Orders orders = new Orders();
+        Orders orders = new Orders();   // 새로운 Order 생성
+        orders.setUsers(users);         // users 정보 저장
+        orders.setOrderDate(LocalDateTime.now());       // 시간 저장
 
-        orders.setUsers(users);
-        orders.setOrderDate(LocalDateTime.now());
-//
-//        Orders printOrders = orderRepository.save(orders);
-//        System.out.println("printOrders : " + printOrders.getUsers().getId());
-
-        List<OrderDetails> orderItems = orderDto.getOrderItems().stream()
+        List<OrderDetails> orderItems = orderRequest.getOrderItems().stream()
                 .map(orderItem -> {
                     // 상품 정보 조회
                     Items item = itemRepository.findById(orderItem.getItemId())
@@ -48,25 +44,43 @@ public class OrderService {
 
                     // 주문 상세 정보 생성
                     return OrderDetails.builder()
-                            .orderId(orders) // 주문 번호 설정
-                            .itemId(item) // 상품 번호 설정
+                            .orders(orders) // 주문 번호 설정
+                            .items(item) // 상품 번호 설정
                             .quantity(orderItem.getQuantity()) // 수량 설정
                             .build();
                 }).toList();
-        for (OrderDetails orderItem : orderItems) {
-            System.out.println("orderItem : " + orderItem.getItemId());
-        }
 
         orders.setOrderItems(orderItems);
-        Orders saveOrders = orderRepository.save(orders);
 
-
+        orderRepository.save(orders);
         orderDetailRepository.saveAll(orderItems);
 
-        // 주문 객체에 주문 상세 정보 추가
-//        printOrders.setOrderItems(orderItems);
-//        System.out.println("최종 printOrder : " + printOrders.getOrderItems());
+        OrderResponse orderResponse = OrderResponse.builder()
+                .users(orders.getUsers())
+                .orderDate(LocalDateTime.now())
+                .orderItems(orders.getOrderItems()).build();
 
-        return saveOrders;
+        return orderResponse;
+    }
+
+    public CartResponseDto searchOrder(Long id) {
+        Optional<OrderDetails> returnCart = orderDetailRepository.findById(id);
+        System.out.println("returnCart = " + returnCart);
+
+        Items items = returnCart.get().getItems();
+
+        CartResponseDto cartResponseDto = CartResponseDto.builder()
+                .name(items.getName())
+                .size(items.getSize())
+                .color(items.getColor())
+                .price(items.getPrice())
+                .build();
+
+        return cartResponseDto;
+    }
+
+    public void deleteOrder(Long id) {
+        orderRepository.deleteById(id);
+        System.out.println("주문이 삭제되었습니다.");
     }
 }
