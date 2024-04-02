@@ -37,7 +37,22 @@ public class EmailService {
         String setFrom = "kimseonhee126@naver.com";         // 보내는 사람 이메일 작성
         String toEmail = email;                             // 받는 사람 이메일
         String title = "DunnShop 회원가입 인증번호 메일입니다.";     // 메일 제목 작성
-        String content = "인증 번호는 " + authNumber + " 입니다!";  // 메일 내용 작성(html 형식으로 작성)
+
+        // 메일 내용 작성(html 형식으로 작성)
+        String content ="";
+        content+= "<div style='margin:20px;'>";
+        content+= "<h2 style='color:#1C1B1A;'> 안녕하세요 DunnShop 입니다! </h2>";
+        content+= "<p>아래 코드를 복사하여 입력해주세요.<p><br>";
+        content+= "<p>제한시간은 5분입니다. 5분 이내에 완료해주시길 바랍니다!<p>";
+        content+= "<br>";
+        content+= "<p>감사합니다.<p>";
+        content+= "<br>";
+        content+= "<div align='center' style='border:1px solid black; font-family:Sans-serif';>";
+        content+= "<h3 style='color:#a9b9eb;'>회원가입 인증 코드입니다.</h3>";
+        content+= "<div style='font-size:130%'>";
+        content+= "CODE : <strong>";
+        content+= authNumber+"</strong><div><br/> ";
+        content+= "</div>";
 
         mailSend(setFrom, toEmail, title, content);
         return Integer.toString(authNumber);
