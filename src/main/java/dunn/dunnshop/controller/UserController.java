@@ -44,9 +44,9 @@ public class UserController {
     public String duplicateId(@RequestParam String id) {
         boolean idBoolean = userService.duplicateId(id);
         if (idBoolean == true) {
-            return "중복 아이디가 없습니다";
-        } else {
             return "중복 아이디가 있습니다";
+        } else {
+            return "중복 아이디가 없습니다";
         }
     }
 }
