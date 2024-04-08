@@ -32,6 +32,13 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
+//	RestTemplate
+	implementation 'org.apache.httpcomponents:httpcore:4.4.15'
+	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+//	Gson
+	implementation 'com.google.code.gson:gson:2.8.7'
+
 }
 
 tasks.named('test') {

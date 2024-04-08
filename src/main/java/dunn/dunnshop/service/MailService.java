@@ -24,6 +24,7 @@ public class MailService {
 
         return message;
     }
+
     public void sendEmail(String sender, String toEmail, String title, String text) throws MessagingException {
         MimeMessage email = createEmail(sender,toEmail, title, text);
         try {
@@ -32,4 +33,5 @@ public class MailService {
             e.printStackTrace();
         }
     }
+
 }
