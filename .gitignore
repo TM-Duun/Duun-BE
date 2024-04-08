@@ -48,3 +48,5 @@ app_*.log.gz
 .DS_Store
 .AppleDouble
 .LSOverride
+
+src/main/java/dunn/dunnshop/config/MailConfig.java
