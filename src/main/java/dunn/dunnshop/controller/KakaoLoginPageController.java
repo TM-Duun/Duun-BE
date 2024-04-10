@@ -23,8 +23,8 @@ public class KakaoLoginPageController {
 
     @GetMapping("")
     public String loginPage(Model model) {
-        model.addAttribute("kakaoApiKey", kakaoApi.getClient_id());
-        model.addAttribute("redirectUri", kakaoApi.getRedirect_uri());
+        model.addAttribute("kakaoApiKey", kakaoApi.getClientId());
+        model.addAttribute("redirectUri", kakaoApi.getRedirectUri());
         return "login";
 
     }

@@ -38,4 +38,7 @@ public interface ItemsRepository extends JpaRepository<Item,Long> {
             """)
     List<MainDto> findByCategoryTop4(@Param("category") String category);
 
+
+
+
 }

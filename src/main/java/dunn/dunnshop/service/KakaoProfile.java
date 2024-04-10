@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import com.google.gson.JsonParser;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
 public class KakaoProfile {
@@ -23,10 +24,8 @@ public class KakaoProfile {
 
         this.id = element.getAsJsonObject().get("id").getAsInt();
 
-        String connected_at = element.getAsJsonObject().get("connected_at").getAsString();
-        connected_at = connected_at.substring(0, connected_at.length() - 1);
-        LocalDateTime connectDateTime = LocalDateTime.parse(connected_at, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
-        this.connectedAt = connectDateTime;
+        String connectedAt = element.getAsJsonObject().get("connected_at").getAsString();
+        this.connectedAt = parseConnectedDate(connectedAt);
 
         JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
         this.nickname = properties.getAsJsonObject().get("nickname").getAsString();
@@ -35,5 +34,14 @@ public class KakaoProfile {
 //        this.email = kakaoAccount.getAsJsonObject().get("email").getAsString();
 
     }
+
+    private LocalDateTime parseConnectedDate(String connectedAt) {
+
+        String result = connectedAt.substring(0, connectedAt.length() - 1);
+
+        return LocalDateTime.parse(result, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+
+    }
+
 
 }

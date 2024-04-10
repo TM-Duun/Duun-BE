@@ -13,16 +13,10 @@ public class RedisUtil {
     private final StringRedisTemplate redisTemplate;
 
     // 키(key)에 해당하는 데이터를 Redis 에서 가져오는 메서드
-    public String getData(String key) {
+    private String getData(String key) {
         ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
         return valueOperations.get(key);
     }
-
-    // 키(key)에 값을 저장하는 메서드
-//    public void setData(String key, String value) {
-//        ValueOperations<String, String> valueOperations = redisTemplate.opsForValue();
-//        valueOperations.set(key, value);
-//    }
 
     // 키(key)에 값을 저장하고, 설정한 시간(duration)이 지나면 데이터가 유효하지 않도록 설정하는 메서드
     public void setDataExpire(String key, String value, long duration) {
@@ -31,8 +25,11 @@ public class RedisUtil {
         valueOperations.set(key, value, expireDuration);
     }
 
-    // 키(key)에 해당하는 데이터를 Redis 에서 삭제하는 메서드
-//    public void deleteData(String key) {
-//        redisTemplate.delete(key);
-//    }
+    public boolean hasCode(String code){
+        return getData(code) != null;
+    }
+
+    public boolean hasEmail(String code, String email){
+        return getData(code).equals(email);
+    }
 }

@@ -3,6 +3,7 @@ package dunn.dunnshop.controller;
 import dunn.dunnshop.domain.User;
 import dunn.dunnshop.dto.AuthRequestDto;
 import dunn.dunnshop.dto.UserDto;
+import dunn.dunnshop.dto.main.MainResponseDto;
 import dunn.dunnshop.service.AuthService;
 import dunn.dunnshop.service.UserService;
 import jakarta.mail.MessagingException;
@@ -20,7 +21,7 @@ public class UserController {
     private final UserService userService;
     private final AuthService authService;
 
-    @PostMapping("/save")
+    @PostMapping("")
     public void save(@RequestBody User user){
         userService.save(user);
     }
@@ -35,12 +36,22 @@ public class UserController {
         return userService.findUser(id);
     }
 
-    @GetMapping()
-    public List<UserDto> findAllUser(){
-        return userService.findAllUser();
+//    @GetMapping()
+//    public List<UserDto> findAllUser(){
+//        return userService.findAllUser();
+//    }
+
+    /*
+    ===================== 아아디 중복 확인 =====================
+     */
+    @GetMapping
+    public boolean isUserId(@RequestParam("userId") String userId){
+        return userService.isUserId(userId);
     }
 
-    // 이메일 인증
+    /*
+    ===================== 메일인증 =====================
+     */
     @PostMapping("/auth-mail/{email}")
     public void sendCodeToEmail(@PathVariable("email") String toEmail) throws NoSuchAlgorithmException, MessagingException {
         authService.sendCodeToEmail(toEmail);

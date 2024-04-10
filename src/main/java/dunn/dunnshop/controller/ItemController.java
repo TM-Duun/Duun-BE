@@ -46,6 +46,7 @@ public class ItemController {
         return itemService.getNew();
     }
     //main
+
     @GetMapping
     public MainResponseDto getCategoryTopItem(@RequestParam("category") String category){
         return itemService.getCategoryTopItem(category);
