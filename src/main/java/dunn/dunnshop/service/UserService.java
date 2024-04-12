@@ -43,4 +43,11 @@ public class UserService {
 
     // + 유저 정보 수정
 
+    //
+    public boolean isUserId(String userId){
+//        return userRepository.countByUserId(userId);
+        return userRepository.existsByUserId(userId);
+
+    }
+
 }

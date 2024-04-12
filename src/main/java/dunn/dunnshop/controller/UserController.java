@@ -7,10 +7,12 @@ import dunn.dunnshop.service.AuthService;
 import dunn.dunnshop.service.UserService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
 
 
 @RestController  // @Controller + @ResponseBody
@@ -20,7 +22,7 @@ public class UserController {
     private final UserService userService;
     private final AuthService authService;
 
-    @PostMapping("/save")
+    @PostMapping("")
     public void save(@RequestBody User user){
         userService.save(user);
     }
@@ -35,12 +37,24 @@ public class UserController {
         return userService.findUser(id);
     }
 
-    @GetMapping()
-    public List<UserDto> findAllUser(){
-        return userService.findAllUser();
+//    @GetMapping("")
+//    public List<UserDto> findAllUser(){
+//        return userService.findAllUser();
+//    }
+
+    /*
+    ===================== 아아디 중복 확인 =====================
+     */
+    @GetMapping
+    @ResponseStatus(code = HttpStatus.OK)
+    public boolean isUserId(@RequestParam("userId") String userId){
+//        return HttpStatus.SC_CONFLICT;
+        return userService.isUserId(userId);
     }
 
-    // 이메일 인증
+    /*
+    ===================== 메일인증 =====================
+     */
     @PostMapping("/auth-mail/{email}")
     public void sendCodeToEmail(@PathVariable("email") String toEmail) throws NoSuchAlgorithmException, MessagingException {
         authService.sendCodeToEmail(toEmail);

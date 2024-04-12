@@ -44,7 +44,7 @@ public class ItemService {
     }
 
     /*
-    // 아이테 갱신 추가
+    // 아이템 갱신 추가
     */
 
     /*

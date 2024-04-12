@@ -23,8 +23,8 @@ public class KakaoLoginPageController {
 
     @GetMapping("")
     public String loginPage(Model model) {
-        model.addAttribute("kakaoApiKey", kakaoApi.getClient_id());
-        model.addAttribute("redirectUri", kakaoApi.getRedirect_uri());
+        model.addAttribute("kakaoApiKey", kakaoApi.getClientId());
+        model.addAttribute("redirectUri", kakaoApi.getRedirectUri());
         return "login";
 
     }
@@ -43,7 +43,9 @@ public class KakaoLoginPageController {
 //        String email = (String)userInfo.getEmail();
         String nickname = (String)userInfo.getNickname();
 
+        Integer id = userInfo.getId();
 //        System.out.println("email = " + email);
+        System.out.println("id = " + id);
         System.out.println("nickname = " + nickname);
         System.out.println("accessToken = " + accessToken);
 
