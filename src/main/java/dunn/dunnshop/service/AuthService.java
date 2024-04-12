@@ -61,7 +61,6 @@ public class AuthService {
             return true;
         }
         return false;
-
     }
 
     private boolean isCodeAndEmailInRedis(String code, String email) {

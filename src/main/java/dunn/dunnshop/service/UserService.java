@@ -45,7 +45,9 @@ public class UserService {
 
     //
     public boolean isUserId(String userId){
-        return userRepository.countByUserId(userId);
+//        return userRepository.countByUserId(userId);
+        return userRepository.existsByUserId(userId);
+
     }
 
 }

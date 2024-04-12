@@ -3,15 +3,16 @@ package dunn.dunnshop.controller;
 import dunn.dunnshop.domain.User;
 import dunn.dunnshop.dto.AuthRequestDto;
 import dunn.dunnshop.dto.UserDto;
-import dunn.dunnshop.dto.main.MainResponseDto;
 import dunn.dunnshop.service.AuthService;
 import dunn.dunnshop.service.UserService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+
 
 
 @RestController  // @Controller + @ResponseBody
@@ -36,7 +37,7 @@ public class UserController {
         return userService.findUser(id);
     }
 
-//    @GetMapping()
+//    @GetMapping("")
 //    public List<UserDto> findAllUser(){
 //        return userService.findAllUser();
 //    }
@@ -45,7 +46,9 @@ public class UserController {
     ===================== 아아디 중복 확인 =====================
      */
     @GetMapping
+    @ResponseStatus(code = HttpStatus.OK)
     public boolean isUserId(@RequestParam("userId") String userId){
+//        return HttpStatus.SC_CONFLICT;
         return userService.isUserId(userId);
     }
 
